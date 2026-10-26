@@ -83,6 +83,8 @@ stateDiagram-v2
 - **Errores**: `ProblemDetail` centralizado en `GlobalExceptionHandler` (400/401/403/404/409/422/503/500).
 
 ## TODO
+Checklist completo del simulacro: [docs/CHECKLIST.md](docs/CHECKLIST.md)
+
 - [ ] Lógica de dominio (`Product`, `InventoryRequest`, `RequestStatus`)
 - [ ] Casos de uso (`ProductService`, `RequestService`, `AuthService`, `SupplierAvailabilityService`)
 - [ ] JWT (`JwtTokenProvider`, `JwtAuthenticationFilter`)
