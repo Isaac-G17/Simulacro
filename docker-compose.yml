@@ -1,0 +1,57 @@
+services:
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: stockbridge-db
+    environment:
+      POSTGRES_DB: stockbridge
+      POSTGRES_USER: ${DB_USER:-stockbridge}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-stockbridge}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-stockbridge} -d stockbridge"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - stockbridge-net
+
+  supplier-service:
+    build: ./supplier-availability-service
+    container_name: supplier-availability-service
+    environment:
+      SERVER_PORT: 8081
+    ports:
+      - "8081:8081"
+    networks:
+      - stockbridge-net
+
+  inventory-service:
+    build: ./inventory-management-service
+    container_name: inventory-management-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+      supplier-service:
+        condition: service_started
+    environment:
+      SERVER_PORT: 8080
+      DB_URL: jdbc:postgresql://postgres:5432/stockbridge   # "postgres" = nombre del servicio en la red interna
+      DB_USER: ${DB_USER:-stockbridge}
+      DB_PASSWORD: ${DB_PASSWORD:-stockbridge}
+      SUPPLIER_URL: http://supplier-service:8081
+      JWT_SECRET: ${JWT_SECRET:-cambia-este-secreto-por-uno-de-al-menos-32-caracteres-123456}
+    ports:
+      - "8080:8080"
+    networks:
+      - stockbridge-net
+
+networks:
+  stockbridge-net:
+    driver: bridge
+
+volumes:
+  pgdata:

@@ -1,0 +1,57 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  application:
+    name: inventory-management-service
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/stockbridge}
+    username: ${DB_USER:stockbridge}
+    password: ${DB_PASSWORD:stockbridge}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate        # el esquema lo maneja Flyway, no Hibernate
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: false              # ponlo en true para detectar N+1
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:cambia-este-secreto-por-uno-de-al-menos-32-caracteres-123456}
+    expiration-ms: ${JWT_EXPIRATION_MS:3600000}
+  supplier:
+    base-url: ${SUPPLIER_URL:http://localhost:8081}
+    connect-timeout-ms: 2000
+    read-timeout-ms: 3000
+  inventory:
+    low-stock-threshold: 5
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: inventory-management-service
+    description: StockBridge - inventario y solicitudes internas
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    com.stockbridge: INFO

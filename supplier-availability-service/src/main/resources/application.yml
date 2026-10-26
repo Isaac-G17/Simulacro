@@ -1,0 +1,17 @@
+server:
+  port: ${SERVER_PORT:8081}
+
+spring:
+  application:
+    name: supplier-availability-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+info:
+  app:
+    name: supplier-availability-service
+    description: Simulador de disponibilidad de proveedores
