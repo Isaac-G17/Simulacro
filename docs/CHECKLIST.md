@@ -54,10 +54,10 @@ Marca cada ítem (`[x]`) a medida que lo completes.
 
 ### Integración (MockMvc + Testcontainers)
 - [x] Health responde y un endpoint sin token devuelve 401
-- [ ] Login correcto devuelve token
-- [ ] Un EMPLEADO que crea un producto recibe 403
-- [ ] Un empleado que consulta la solicitud de otro es rechazado
-- [ ] Flujo completo crear → aprobar → entregar (baja el stock y queda el movimiento)
+- [x] Login correcto devuelve token
+- [x] Un EMPLEADO que crea un producto recibe 403
+- [x] Un empleado que consulta la solicitud de otro es rechazado
+- [x] Flujo completo crear → aprobar → entregar (baja el stock y queda el movimiento)
 
 ## 8. Docker
 - [x] Dockerfiles multi-stage y `docker-compose.yml`
