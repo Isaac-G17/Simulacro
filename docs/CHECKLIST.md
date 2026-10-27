@@ -5,11 +5,11 @@ Marca cada ítem (`[x]`) a medida que lo completes.
 > **Prioridad si falta tiempo:** 1 → 2 → 3 → 8. Con eso hay un proyecto funcional, demostrable y que se levanta con un comando. Pruebas y métricas suman, pero sin lo anterior no se pueden mostrar.
 
 ## 1. Dominio
-- [ ] `RequestStatus.canTransitionTo()`: tabla de transiciones
-- [ ] `Product.create()`: precio > 0 y stock ≥ 0
-- [ ] `Product.updateInfo()`, `decreaseStock()`, `increaseStock()`
-- [ ] `InventoryRequest.create()`: cantidad > 0, estado PENDIENTE y fecha actual
-- [ ] `InventoryRequest.changeStatus()` y `reject()` (guardar el motivo)
+- [x] `RequestStatus.canTransitionTo()`: tabla de transiciones
+- [x] `Product.create()`: precio > 0 y stock ≥ 0
+- [x] `Product.updateInfo()`, `decreaseStock()`, `increaseStock()`
+- [x] `InventoryRequest.create()`: cantidad > 0, estado PENDIENTE y fecha actual
+- [x] `InventoryRequest.changeStatus()` y `reject()` (guardar el motivo)
 
 ## 2. Casos de uso
 - [ ] `ProductService`: crear (validar código duplicado), actualizar, buscar por id, activar/desactivar

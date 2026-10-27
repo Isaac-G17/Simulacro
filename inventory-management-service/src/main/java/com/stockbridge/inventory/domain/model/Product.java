@@ -38,10 +38,10 @@ public class Product {
     public static Product create(String code, String name, String description, String category,
                                  BigDecimal price, int stock) {
         validatePrice(price);
-        if(stock < 0){
+        if (stock < 0) {
             throw new InvalidDomainDataException("El stock no puede ser negativo");
         }
-        return new Product(null,code,name,description,category,price,stock,true,null);
+        return new Product(null, code, name, description, category, price, stock, true, null);
     }
 
     public void updateInfo(String name, String description, String category, BigDecimal price) {
@@ -55,10 +55,9 @@ public class Product {
     /** Descuenta unidades. Las existencias nunca pueden quedar negativas. */
     public void decreaseStock(int quantity) {
         validatePositiveQuantity(quantity);
-        if (!hasEnoughStock(quantity)){
+        if (!hasEnoughStock(quantity)) {
             throw new InsufficientStockException(
-                    "Stock insuficiente para " + code + ": disponible " + stock + ", solicitado"
-            + quantity);
+                    "Stock insuficiente para " + code + ": disponible " + stock + ", solicitado " + quantity);
         }
         this.stock -= quantity;
     }
@@ -80,14 +79,14 @@ public class Product {
         this.active = false;
     }
 
-    private static void validatePrice(BigDecimal price){
-        if(price == null || price.compareTo(BigDecimal.ZERO) <= 0){
+    private static void validatePrice(BigDecimal price) {
+        if (price == null || price.compareTo(BigDecimal.ZERO) <= 0) {
             throw new InvalidDomainDataException("El precio debe ser mayor que cero");
         }
     }
 
-    private static void validatePositiveQuantity(int quantity){
-        if (quantity <= 0){
+    private static void validatePositiveQuantity(int quantity) {
+        if (quantity <= 0) {
             throw new InvalidDomainDataException("La cantidad debe ser mayor que cero");
         }
     }
