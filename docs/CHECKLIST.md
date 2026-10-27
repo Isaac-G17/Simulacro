@@ -12,12 +12,12 @@ Marca cada ítem (`[x]`) a medida que lo completes.
 - [x] `InventoryRequest.changeStatus()` y `reject()` (guardar el motivo)
 
 ## 2. Casos de uso
-- [ ] `ProductService`: crear (validar código duplicado), actualizar, buscar por id, activar/desactivar
-- [ ] `RequestService.create()`: rechazar producto inactivo y cantidad inválida
-- [ ] `RequestService.findById()`: un EMPLEADO solo ve sus propias solicitudes
-- [ ] `RequestService.approve()`, `reject()`, `cancel()`
-- [ ] `RequestService.deliver()`: stock + movimiento + estado en **una sola** transacción
-- [ ] `SupplierAvailabilityService.check()`
+- [x] `ProductService`: crear (validar código duplicado), actualizar, buscar por id, activar/desactivar
+- [x] `RequestService.create()`: rechazar producto inactivo y cantidad inválida
+- [x] `RequestService.findById()`: un EMPLEADO solo ve sus propias solicitudes
+- [x] `RequestService.approve()`, `reject()`, `cancel()`
+- [x] `RequestService.deliver()`: stock + movimiento + estado en **una sola** transacción
+- [x] `SupplierAvailabilityService.check()`
 
 ## 3. Seguridad JWT
 - [x] `SecurityConfig`, BCrypt, `@PreAuthorize`, respuestas 401/403 en ProblemDetail

@@ -32,6 +32,12 @@ public class InventoryMovement {
                 quantity, "Entrega de solicitud " + requestId, LocalDateTime.now());
     }
 
+    /** Entrada de inventario (reposición) registrada por bodega o administración. */
+    public static InventoryMovement entry(Long productId, Long userId, int quantity, String note) {
+        return new InventoryMovement(null, productId, null, userId, MovementType.ENTRADA,
+                quantity, note, LocalDateTime.now());
+    }
+
     public Long getId() { return id; }
     public Long getProductId() { return productId; }
     public Long getRequestId() { return requestId; }

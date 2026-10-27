@@ -2,6 +2,7 @@ package com.stockbridge.inventory.infrastructure.config;
 
 import com.stockbridge.inventory.domain.exception.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -63,6 +64,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     ProblemDetail handleOptimisticLock(ObjectOptimisticLockingFailureException ex) {
         return problem(HttpStatus.CONFLICT, "Modificación concurrente",
                 "El recurso fue modificado por otra operación. Intenta de nuevo.");
+    }
+
+    /** Carrera entre dos altas con el mismo código/email: ambas pasan el existsBy... y la BD rechaza la segunda. */
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    ProblemDetail handleDataIntegrity(DataIntegrityViolationException ex) {
+        log.warn("Violación de integridad en BD: {}", ex.getMostSpecificCause().getMessage());
+        return problem(HttpStatus.CONFLICT, "Conflicto de datos",
+                "La operación viola una restricción de datos (posible duplicado)");
     }
 
     @ExceptionHandler(Exception.class)

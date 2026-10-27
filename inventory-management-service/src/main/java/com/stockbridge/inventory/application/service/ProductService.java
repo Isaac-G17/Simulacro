@@ -2,6 +2,8 @@ package com.stockbridge.inventory.application.service;
 
 import com.stockbridge.inventory.application.port.in.ManageProductUseCase;
 import com.stockbridge.inventory.application.port.out.ProductRepositoryPort;
+import com.stockbridge.inventory.domain.exception.DuplicateResourceException;
+import com.stockbridge.inventory.domain.exception.ResourceNotFoundException;
 import com.stockbridge.inventory.domain.model.PageResult;
 import com.stockbridge.inventory.domain.model.Product;
 import lombok.RequiredArgsConstructor;
@@ -21,25 +23,32 @@ public class ProductService implements ManageProductUseCase {
     @Override
     @Transactional
     public Product create(CreateProductCommand command) {
-        // TODO:
-        // 1. si productRepository.existsByCode(code) -> DuplicateResourceException
-        // 2. Product.create(...) (el dominio valida precio y stock)
-        // 3. guardar, log.info y retornar
-        throw new UnsupportedOperationException("TODO");
+        if (productRepository.existsByCode(command.code())) {
+            throw new DuplicateResourceException("Ya existe un producto con el código " + command.code());
+        }
+        // El dominio valida precio > 0 y stock >= 0
+        Product product = Product.create(command.code(), command.name(), command.description(),
+                command.category(), command.price(), command.stock());
+        Product saved = productRepository.save(product);
+        log.info("Producto creado: id={}, código={}, stock={}", saved.getId(), saved.getCode(), saved.getStock());
+        return saved;
     }
 
     @Override
     @Transactional
     public Product update(Long id, UpdateProductCommand command) {
-        // TODO: buscar (o ResourceNotFoundException), product.updateInfo(...), guardar
-        throw new UnsupportedOperationException("TODO");
+        Product product = findById(id);
+        product.updateInfo(command.name(), command.description(), command.category(), command.price());
+        Product saved = productRepository.save(product);
+        log.info("Producto actualizado: id={}, código={}", saved.getId(), saved.getCode());
+        return saved;
     }
 
     @Override
     @Transactional(readOnly = true)
     public Product findById(Long id) {
-        // TODO: productRepository.findById(id).orElseThrow(ResourceNotFoundException)
-        throw new UnsupportedOperationException("TODO");
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No existe el producto con id " + id));
     }
 
     @Override
@@ -51,8 +60,15 @@ public class ProductService implements ManageProductUseCase {
     @Override
     @Transactional
     public Product changeStatus(Long id, boolean active) {
-        // TODO: buscar, activate()/deactivate(), guardar
-        throw new UnsupportedOperationException("TODO");
+        Product product = findById(id);
+        if (active) {
+            product.activate();
+        } else {
+            product.deactivate();
+        }
+        Product saved = productRepository.save(product);
+        log.info("Producto {} {}", saved.getCode(), active ? "activado" : "desactivado");
+        return saved;
     }
 
     @Override

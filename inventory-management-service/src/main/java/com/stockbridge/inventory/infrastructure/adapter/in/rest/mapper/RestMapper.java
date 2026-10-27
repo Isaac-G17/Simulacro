@@ -6,6 +6,8 @@ import com.stockbridge.inventory.application.port.in.AuthUseCase.RegisterCommand
 import com.stockbridge.inventory.application.port.in.ManageProductUseCase.CreateProductCommand;
 import com.stockbridge.inventory.application.port.in.ManageProductUseCase.UpdateProductCommand;
 import com.stockbridge.inventory.application.port.in.ManageRequestUseCase.CreateRequestCommand;
+import com.stockbridge.inventory.application.port.in.ManageStockUseCase.StockEntryCommand;
+import com.stockbridge.inventory.domain.model.InventoryMovement;
 import com.stockbridge.inventory.domain.model.InventoryRequest;
 import com.stockbridge.inventory.domain.model.Product;
 import com.stockbridge.inventory.domain.model.SupplierAvailability;
@@ -25,6 +27,10 @@ public interface RestMapper {
     CreateRequestCommand toCommand(CreateInventoryRequestRequest request);
 
     InventoryRequestResponse toResponse(InventoryRequest request);
+
+    StockEntryCommand toCommand(StockEntryRequest request);
+
+    MovementResponse toResponse(InventoryMovement movement);
 
     RegisterCommand toCommand(RegisterRequest request);
 

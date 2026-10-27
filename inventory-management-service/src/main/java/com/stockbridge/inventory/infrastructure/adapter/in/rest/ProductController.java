@@ -2,6 +2,8 @@ package com.stockbridge.inventory.infrastructure.adapter.in.rest;
 
 import com.stockbridge.inventory.application.port.in.CheckSupplierAvailabilityUseCase;
 import com.stockbridge.inventory.application.port.in.ManageProductUseCase;
+import com.stockbridge.inventory.application.port.in.ManageStockUseCase;
+import com.stockbridge.inventory.domain.model.CurrentUser;
 import com.stockbridge.inventory.infrastructure.adapter.in.rest.dto.*;
 import com.stockbridge.inventory.infrastructure.adapter.in.rest.mapper.RestMapper;
 import jakarta.validation.Valid;
@@ -11,6 +13,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +26,7 @@ public class ProductController {
 
     private final ManageProductUseCase productUseCase;
     private final CheckSupplierAvailabilityUseCase supplierUseCase;
+    private final ManageStockUseCase stockUseCase;
     private final RestMapper mapper;
 
     @PostMapping
@@ -65,5 +69,18 @@ public class ProductController {
     @PreAuthorize("hasAnyRole('ADMIN', 'BODEGA')")
     public AvailabilityResponse checkSupplier(@PathVariable Long id, @RequestParam @Positive int quantity) {
         return mapper.toResponse(supplierUseCase.check(id, quantity));
+    }
+
+    @PostMapping("/{id}/stock-entries")
+    @PreAuthorize("hasAnyRole('ADMIN', 'BODEGA')")
+    public ProductResponse registerStockEntry(@PathVariable Long id, @Valid @RequestBody StockEntryRequest request,
+                                              @AuthenticationPrincipal CurrentUser user) {
+        return mapper.toResponse(stockUseCase.registerEntry(id, mapper.toCommand(request), user));
+    }
+
+    @GetMapping("/{id}/movements")
+    @PreAuthorize("hasAnyRole('ADMIN', 'BODEGA')")
+    public List<MovementResponse> findMovements(@PathVariable Long id) {
+        return stockUseCase.findMovements(id).stream().map(mapper::toResponse).toList();
     }
 }
