@@ -28,7 +28,7 @@ Marca cada ítem (`[x]`) a medida que lo completes.
 
 ## 4. Servicio de proveedores
 - [x] Controller, DTOs, Dockerfile
-- [ ] `AvailabilityService.check()` con lógica determinista basada en un hash
+- [x] `AvailabilityService.check()` con lógica determinista basada en un hash
 - [x] Cliente con timeouts y error 503 en el servicio principal
 - [ ] Probar con el supplier apagado → debe responder 503, no colgarse
 
