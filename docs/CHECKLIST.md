@@ -45,12 +45,12 @@ Marca cada ítem (`[x]`) a medida que lo completes.
 
 ## 7. Pruebas
 ### Unitarias (JUnit 5 + Mockito)
-- [ ] Registrar producto válido
-- [ ] Rechazar código duplicado
-- [ ] Rechazar cantidad inválida
-- [ ] Impedir entrega sin stock suficiente
-- [ ] Rechazar transición de estado inválida
-- [ ] Proveedor caído (mock que lanza `SupplierUnavailableException`)
+- [x] Registrar producto válido
+- [x] Rechazar código duplicado
+- [x] Rechazar cantidad inválida
+- [x] Impedir entrega sin stock suficiente
+- [x] Rechazar transición de estado inválida
+- [x] Proveedor caído (mock que lanza `SupplierUnavailableException`)
 
 ### Integración (MockMvc + Testcontainers)
 - [x] Health responde y un endpoint sin token devuelve 401
