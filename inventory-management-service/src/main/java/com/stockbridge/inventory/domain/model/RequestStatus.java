@@ -14,7 +14,10 @@ public enum RequestStatus {
      *   RECHAZADA, ENTREGADA, CANCELADA -> (estados finales, ninguna)
      */
     public boolean canTransitionTo(RequestStatus target) {
-        // TODO: implementar la tabla de transiciones (un switch sobre this)
-        throw new UnsupportedOperationException("TODO");
+        return switch (this){
+            case PENDIENTE -> target == APROBADA || target == RECHAZADA || target == CANCELADA;
+            case APROBADA -> target == ENTREGADA || target == CANCELADA; 
+            case RECHAZADA, ENTREGADA,CANCELADA -> false;
+        };
     }
 }

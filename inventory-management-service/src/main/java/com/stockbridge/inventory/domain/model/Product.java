@@ -2,6 +2,9 @@ package com.stockbridge.inventory.domain.model;
 
 import java.math.BigDecimal;
 
+import com.stockbridge.inventory.domain.exception.InsufficientStockException;
+import com.stockbridge.inventory.domain.exception.InvalidDomainDataException;
+
 /**
  * Entidad de dominio. NO tiene anotaciones de JPA ni de Spring:
  * la entidad de base de datos es ProductEntity (capa de infraestructura).
@@ -34,24 +37,35 @@ public class Product {
     /** Fábrica para productos nuevos: valida las reglas y deja el producto activo. */
     public static Product create(String code, String name, String description, String category,
                                  BigDecimal price, int stock) {
-        // TODO: precio > 0 y stock >= 0, si no lanzar InvalidDomainDataException
-        throw new UnsupportedOperationException("TODO");
+        validatePrice(price);
+        if(stock < 0){
+            throw new InvalidDomainDataException("El stock no puede ser negativo");
+        }
+        return new Product(null,code,name,description,category,price,stock,true,null);
     }
 
     public void updateInfo(String name, String description, String category, BigDecimal price) {
-        // TODO: validar precio > 0 y actualizar campos
-        throw new UnsupportedOperationException("TODO");
+        validatePrice(price);
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.price = price;
     }
 
     /** Descuenta unidades. Las existencias nunca pueden quedar negativas. */
     public void decreaseStock(int quantity) {
-        // TODO: quantity > 0, y si stock < quantity lanzar InsufficientStockException
-        throw new UnsupportedOperationException("TODO");
+        validatePositiveQuantity(quantity);
+        if (!hasEnoughStock(quantity)){
+            throw new InsufficientStockException(
+                    "Stock insuficiente para " + code + ": disponible " + stock + ", solicitado"
+            + quantity);
+        }
+        this.stock -= quantity;
     }
 
     public void increaseStock(int quantity) {
-        // TODO: quantity > 0
-        throw new UnsupportedOperationException("TODO");
+        validatePositiveQuantity(quantity);
+        this.stock += quantity;
     }
 
     public boolean hasEnoughStock(int quantity) {
@@ -64,6 +78,18 @@ public class Product {
 
     public void deactivate() {
         this.active = false;
+    }
+
+    private static void validatePrice(BigDecimal price){
+        if(price == null || price.compareTo(BigDecimal.ZERO) <= 0){
+            throw new InvalidDomainDataException("El precio debe ser mayor que cero");
+        }
+    }
+
+    private static void validatePositiveQuantity(int quantity){
+        if (quantity <= 0){
+            throw new InvalidDomainDataException("La cantidad debe ser mayor que cero");
+        }
     }
 
     public Long getId() { return id; }

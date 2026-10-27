@@ -1,6 +1,8 @@
 package com.stockbridge.inventory.domain.model;
 
 import java.time.LocalDateTime;
+import com.stockbridge.inventory.domain.exception.InvalidDomainDataException;
+import com.stockbridge.inventory.domain.exception.InvalidStateTransitionException;
 
 /** Solicitud interna de productos. Contiene las reglas de cambio de estado. */
 public class InventoryRequest {
@@ -28,8 +30,11 @@ public class InventoryRequest {
 
     /** Nueva solicitud: estado PENDIENTE y fecha de creación actual. */
     public static InventoryRequest create(Long userId, Long productId, int quantity, String observation) {
-        // TODO: quantity > 0, si no lanzar InvalidDomainDataException
-        throw new UnsupportedOperationException("TODO");
+        if (quantity <= 0) {
+            throw new InvalidDomainDataException("La cantidad solicitada debe ser mayor que cero");
+        }
+        return new InventoryRequest(null, userId, productId, quantity,
+                RequestStatus.PENDIENTE, observation, LocalDateTime.now(), null);
     }
 
     public void approve() {
@@ -37,8 +42,8 @@ public class InventoryRequest {
     }
 
     public void reject(String reason) {
-        // TODO: guardar el motivo en observation
         changeStatus(RequestStatus.RECHAZADA);
+        this.observation = reason;
     }
 
     public void cancel() {
@@ -54,9 +59,12 @@ public class InventoryRequest {
     }
 
     private void changeStatus(RequestStatus target) {
-        // TODO: si !status.canTransitionTo(target) lanzar InvalidStateTransitionException
-        //       si es válido: status = target; updatedAt = now
-        throw new UnsupportedOperationException("TODO");
+        if (!status.canTransitionTo(target)) {
+            throw new InvalidStateTransitionException(
+                    "No se puede pasar la solicitud de " + status + " a " + target);
+        }
+        this.status = target;
+        this.updatedAt = LocalDateTime.now();
     }
 
     public Long getId() { return id; }
