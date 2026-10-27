@@ -14,4 +14,8 @@ public interface ProductJpaRepository extends JpaRepository<ProductEntity, Long>
     /** Consulta JPQL: productos activos con existencias por debajo del mínimo. */
     @Query("SELECT p FROM ProductEntity p WHERE p.active = true AND p.stock < :minimum ORDER BY p.stock ASC")
     List<ProductEntity> findLowStock(@Param("minimum") int minimum);
+
+    /** Para el gauge de métricas: solo cuenta, sin traer las filas. */
+    @Query("SELECT COUNT(p) FROM ProductEntity p WHERE p.active = true AND p.stock < :minimum")
+    long countLowStock(@Param("minimum") int minimum);
 }

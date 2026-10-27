@@ -39,9 +39,9 @@ Marca cada ítem (`[x]`) a medida que lo completes.
 
 ## 6. Observabilidad
 - [x] Actuator (health, info, metrics, prometheus) y Timer del proveedor
-- [ ] Contadores `requests.created`, `requests.approved`, `requests.rejected` en `RequestService`
-- [ ] Gauge de productos con stock bajo
-- [ ] Logs `log.info` en operaciones clave y `log.error` en fallos
+- [x] Contadores `requests.created`, `requests.approved`, `requests.rejected` en `RequestService`
+- [x] Gauge de productos con stock bajo
+- [x] Logs `log.info` en operaciones clave y `log.error` en fallos
 
 ## 7. Pruebas
 ### Unitarias (JUnit 5 + Mockito)

@@ -47,4 +47,9 @@ public class ProductPersistenceAdapter implements ProductRepositoryPort {
     public List<Product> findByStockLessThan(int minimum) {
         return repository.findLowStock(minimum).stream().map(mapper::toDomain).toList();
     }
+
+    @Override
+    public long countByStockLessThan(int minimum) {
+        return repository.countLowStock(minimum);
+    }
 }
