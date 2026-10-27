@@ -24,18 +24,18 @@ Marca cada ítem (`[x]`) a medida que lo completes.
 - [x] `JwtTokenProvider.generateToken()` y `parse()`
 - [x] `JwtAuthenticationFilter`: poner la autenticación en el `SecurityContext`
 - [x] `AuthService.register()` y `login()`
-- [ ] Probar en Swagger: login → Authorize → endpoint protegido
+- [x] Probar en Swagger: login → Authorize → endpoint protegido
 
 ## 4. Servicio de proveedores
 - [x] Controller, DTOs, Dockerfile
 - [x] `AvailabilityService.check()` con lógica determinista basada en un hash
 - [x] Cliente con timeouts y error 503 en el servicio principal
-- [ ] Probar con el supplier apagado → debe responder 503, no colgarse
+- [x] Probar con el supplier apagado → debe responder 503, no colgarse
 
 ## 5. Persistencia
 - [x] Entidades, relaciones LAZY, `@EntityGraph`, JPQL, paginación, `@Version`
 - [x] Flyway V1 (esquema) y V2 (datos de prueba)
-- [ ] Arrancar con PostgreSQL y verificar que Flyway migra sin errores
+- [x] Arrancar con PostgreSQL y verificar que Flyway migra sin errores
 
 ## 6. Observabilidad
 - [x] Actuator (health, info, metrics, prometheus) y Timer del proveedor
@@ -61,14 +61,14 @@ Marca cada ítem (`[x]`) a medida que lo completes.
 
 ## 8. Docker
 - [x] Dockerfiles multi-stage y `docker-compose.yml`
-- [ ] Encender Docker Desktop y correr `docker compose up --build`
-- [ ] Verificar que el servicio principal llama al supplier por la red interna
+- [x] Encender Docker Desktop y correr `docker compose up --build`
+- [x] Verificar que el servicio principal llama al supplier por la red interna
 
 ## 9. Entregables
 - [x] Repositorio en GitHub
-- [ ] Swagger mostrando todos los endpoints
-- [ ] README con las decisiones técnicas completas y TODOs marcados
-- [ ] Commits frecuentes (uno por bloque terminado)
+- [x] Swagger mostrando todos los endpoints
+- [x] README con las decisiones técnicas completas y TODOs marcados
+- [x] Commits frecuentes (uno por bloque terminado)
 
 ## 10. Preparar la defensa
 - [ ] Explicar el recorrido de una petición: controller → caso de uso → dominio → puerto → adapter → BD
