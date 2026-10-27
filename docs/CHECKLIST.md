@@ -21,9 +21,9 @@ Marca cada ítem (`[x]`) a medida que lo completes.
 
 ## 3. Seguridad JWT
 - [x] `SecurityConfig`, BCrypt, `@PreAuthorize`, respuestas 401/403 en ProblemDetail
-- [ ] `JwtTokenProvider.generateToken()` y `parse()`
-- [ ] `JwtAuthenticationFilter`: poner la autenticación en el `SecurityContext`
-- [ ] `AuthService.register()` y `login()`
+- [x] `JwtTokenProvider.generateToken()` y `parse()`
+- [x] `JwtAuthenticationFilter`: poner la autenticación en el `SecurityContext`
+- [x] `AuthService.register()` y `login()`
 - [ ] Probar en Swagger: login → Authorize → endpoint protegido
 
 ## 4. Servicio de proveedores
