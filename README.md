@@ -183,7 +183,8 @@ stateDiagram-v2
   conexión de BD durante la llamada HTTP.
 - **Proveedor determinista**: proveedor, cantidad y días salen de un hash de `productCode + category`; la misma
   consulta responde siempre igual, sin azar ni estado.
-- **Seguridad**: JWT stateless firmado con HMAC (uid, rol, expiración). Un token modificado no pasa la verificación
+- **Seguridad**: JWT stateless firmado con HS256 explícito (uid, rol, expiración); sin indicarlo, JJWT elegiría el
+  algoritmo según el largo del secreto (HS384 con el de 60 caracteres). Un token modificado no pasa la verificación
   de firma → 401. Roles con `@PreAuthorize`; la propiedad de la solicitud se valida en el caso de uso.
   Contraseñas con BCrypt. El login responde el mismo mensaje si el email no existe o la clave es incorrecta.
 - **Motivo de rechazo separado** (`rejection_reason`, migración V3): no sobrescribe la observación del empleado.

@@ -42,9 +42,9 @@ public class JwtTokenProvider implements TokenProviderPort {
                 .claim(CLAIM_ROLE, user.getRole().name())
                 .issuedAt(now)
                 .expiration(new Date(now.getTime() + expirationMs))
-                // HMAC: la firma depende del contenido y del secreto. JJWT elige HS256/384/512 según el
-                // largo de la clave (el secreto por defecto, de 60 caracteres, da HS384)
-                .signWith(key)
+                // HS256 explícito: sin indicarlo, JJWT elige HS256/384/512 según el largo de la clave
+                // (con el secreto por defecto, de 60 caracteres, elegiría HS384)
+                .signWith(key, Jwts.SIG.HS256)
                 .compact();
     }
 
